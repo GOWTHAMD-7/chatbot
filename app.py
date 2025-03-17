@@ -20,5 +20,6 @@ def chat():
     bot_response = chatbot.get_response(user_message)
     return jsonify({'response': bot_response})
 
+# This is for local development
 if __name__ == '__main__':
     app.run(debug=True) 
