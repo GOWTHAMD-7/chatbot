@@ -3,17 +3,14 @@ import json
 import os
 import nltk
 from nltk.stem import WordNetLemmatizer
+import sys
+
+# Import our custom NLTK setup
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import nltk_setup
 
 class ChatBot:
     def __init__(self):
-        # Download necessary NLTK data
-        try:
-            nltk.data.find('tokenizers/punkt')
-            nltk.data.find('corpora/wordnet')
-        except LookupError:
-            nltk.download('punkt')
-            nltk.download('wordnet')
-        
         self.lemmatizer = WordNetLemmatizer()
         
         # Load intents from file if it exists, otherwise use default responses
@@ -87,7 +84,7 @@ class ChatBot:
                 # Calculate simple overlap score
                 if pattern_words and processed_message:
                     overlap = len(pattern_words.intersection(processed_message))
-                    pattern_score = overlap / len(pattern_words)
+                    pattern_score = overlap / len(pattern_words) if len(pattern_words) > 0 else 0
                     score = max(score, pattern_score)
             
             if score > best_match["score"] and score > 0.5:  # Threshold for matching
